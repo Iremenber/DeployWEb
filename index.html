@@ -10,9 +10,15 @@
 
 
 <div id="app">
-    <input type="text" v-model="try2date">
-    {{try2date}}
-    
+    <input type="text" v-model="try2data" style="width: 600px;">
+    {{c2link}}
+    <button @click="changedata()">点击转换</button>
+
+    <button @click="clean()">清除</button>
+    <p></p>
+    <h3>history:
+        {{historydata}}
+    </h3>
 
 </div>
 
@@ -20,7 +26,78 @@
     var vue=new Vue({
         el:"#app",
         data:{
-            try2date:"你好世界"
+            try2data:"abc=====",
+
+            c2link:"",
+
+            mapall:{},
+
+            historydata:[]
+
+        },
+        mounted(){
+
+            var strall="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+            for (var index = 0; index < strall.length; index++) {
+                var temp=strall[index];
+                this.mapall[temp]=index;
+
+                
+            }
+            //console.log(this.mapall[strall[3]]);
+
+        }
+        ,
+        methods:{
+            changedata(){
+                var scode=this.try2data.split("=")[0];
+                console.log(scode);
+
+                var offset=(scode.length%4==0)?0:(4-scode.length%4);
+                //console.log("len="+this.mapall.length);
+                var sb="";
+
+                for (var index = 0; index < scode.length; index++) {
+                    
+                    var num = this.mapall[scode[index]].toString(2);
+                    console.log(scode[index]+":"+num);
+                    var offs=6-num.length;
+                    for (var i = 0; i < offs; i++) {
+                        sb+='0';
+                        
+                    }
+                    sb+=num;
+
+                }
+                console.log(sb);
+                var end=sb.length;
+                if(offset==2){
+                    end-=4;
+                }
+                else if(offset==1){
+                    end-=2;
+                }
+                var strb=sb.substring(0,end);
+                console.log(strb+"len:"+strb.length)
+
+                var result="";
+                for(var i=0;i<end/8;i++){
+                    console.log(parseInt(strb.substring(i*8,i*8+8),2));
+                    //result+=String.fromCharCode(strb.substring(i*8,i*8+8));
+                    result+=String.fromCharCode(parseInt(strb.substring(i*8,i*8+8),2));
+                }
+                console.log("result="+result);
+                this.c2link=result;
+                this.historydata.push(this.c2link);
+            },
+            show(){
+                console.log(this.mapall['A']);
+                var num=2;
+                console.log(num.toString(2));
+            },
+            clean(){
+                this.historydata=[];
+            }
         }
     });
 </script>

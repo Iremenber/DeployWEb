@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="./vue.js"></script>
 </head>
 <body>
 <h1>helloworld！！！！</h1>
+<div id="app">
+    <input type="text" v-model="try2date">
+    
+
+</div>
+
+<script>
+    var vue=new Vue({
+        el:"#app",
+        data:{
+            try2date:"你好世界"
+        }
+    });
+</script>
 
 </body>
 </html>

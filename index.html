@@ -7,17 +7,25 @@
     <script src="./vue.js"></script>
 </head>
 <body>
-<h1>helloworld！！！！</h1>
+<h1>base64码解码器！！！！</h1>
 
 
 <div id="app">
     <input type="text" v-model="try2data" style="width: 600px;">
-    {{c2link}}
+    <input type="text" id="copytext" :value="c2link">
+    <button  @click="copy('copytext')">复制
+    
     <button @click="changedata()">点击转换</button>
 
     <button @click="clean()">清除</button>
     <p></p>
-    <h3>history:
+    <h3>
+        <input type="text" id="allcopy" :value="historydata">
+        <p></p>
+        <button @click="copy('allcopy')">复制历史记录</button>
+
+        <p></p>
+        history:
         {{historydata}}
     </h3>
 
@@ -97,8 +105,16 @@
                 console.log(num.toString(2));
             },
             clean(){
-                this.historydata=[];
+                this.c2link='';
+                this.try2data='';
+            },
+            copy(id){
+                var copyel=document.getElementById(id);
+                copyel.select();
+                document.execCommand('Copy');
+                
             }
+
         }
     });
 </script>
